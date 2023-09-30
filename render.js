@@ -67,7 +67,7 @@ function drawObj(object) {
     c.translate(viewCoords.x, viewCoords.y)
     c.fillStyle = object.color
     var {x, y} = Coord.FromVector(object.pos)
-    c.arc(x, canvas.height - y, object.mass / 2, 0, 2 * Math.PI);
+    c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI), 0, 2 * Math.PI);
     c.fill()
 }
 

@@ -63,9 +63,14 @@ class Vector {
         return this.magnitude * Math.sin(this.direction)
     }
 
-    // is the magnitude 0?
+    // is the magnitude 0 or Nan?
     isNull() {
         return this.magnitude == 0
+    }
+
+    isNaN() {
+        return Number.isNaN(this.magnitude)
+
     }
 
     // returns a new vector but pointing in the other direction
@@ -75,9 +80,9 @@ class Vector {
 
     // adds two vectors, with the magnitude of b being multiplied by scale
     static Add(a, b, scale = 1) {
-        if (a.isNull()) {
+        if (a.isNull() || a.isNaN()) {
             return b;
-        } else if (b.isNull()) {
+        } else if (b.isNull() || b.isNaN()) {
             return a;
         }
 
@@ -138,23 +143,25 @@ class Obj {
 }
 
 // the first object and its parameters
-var pos = Vector.FromCoord(new Coord(400, 1000))
-var vel = new Vector(0, 0 * Math.PI / 180)
+var pos = Vector.FromCoord(new Coord(3000, 1100))
+var vel = new Vector(0, 30 * Math.PI / 180)
 var acc = Vector.FromCoord(new Coord(0, 0))
-var testObj = new Obj("blue", pos, vel, acc, 50)
+var testObj = new Obj("blue", pos, vel, acc, 90000)
 
 // the second object and its parameters
 var pos2 = Vector.FromCoord(new Coord(400, 300))
-var vel2 = new Vector(20, 190 * Math.PI / 180)
+var vel2 = new Vector(1, 12 * Math.PI / 180)
 var acc2 = Vector.FromCoord(new Coord(0, 0))
-var testObj2 = new Obj("purple", pos2, vel2, acc2, 300)
+var testObj2 = new Obj("purple", pos2, vel2, acc2, 80000)
 
+// all of the objects in the universe
+var objects = [testObj, testObj2]
 
 // world settings:
 
 // the gravitational constant should be 10x10^-11, but that is not strong enough here
 // larger values mean more gravity in the universe
-var G = 6.6743 * Math.pow(10, .5)
+var G = 6.6743 * Math.pow(10, -3)
 // framerate
 const fps = 1000 / 60;
 // deltatime
@@ -181,16 +188,34 @@ window.onload = () => {
         dt = (time - lastTime) / fps * speed
 
         // update and render the objects
-        testObj.update(dt)
-        testObj.render(dt)
-        testObj2.update(dt)
-        testObj2.render(dt)
+        objects.forEach((obj) => {
+            obj.update(dt)
+            obj.render(dt)
+        })
 
-        // calculate the gravity of both objects
-        var gravityVector = Vector.Subtract(testObj.pos, testObj2.pos).unit()
-        gravityVector.magnitude = G * ((testObj.mass * testObj2.mass) / Vector.Subtract(testObj.pos, testObj2.pos).power(2).magnitude)
-        testObj.a = gravityVector.negative()
-        testObj2.a = gravityVector
+        // calculate the gravity of all objects
+
+
+        for (let i = 0; i < objects.length; i++) {
+            var totalAcceleration = new Vector(0, 0)
+
+            for (let j = 0; j < objects.length; j++) {
+                // an object compared with itself has infinite gravity
+                if (i == j) {
+                    continue
+                }
+
+                // calculate the gravity of each object towards each other one
+                var gravityVector = Vector.Subtract(objects[j].pos, objects[i].pos)
+                gravityVector.magnitude = G * ((objects[i].mass * objects[j].mass) / Vector.Subtract(objects[i].pos, objects[j].pos).power(2).magnitude)
+
+                totalAcceleration = Vector.Add(totalAcceleration, gravityVector.negative())
+            }
+
+            // set the final gravity
+            objects[i].a = totalAcceleration.multiplyByScalar(1 / objects[i].mass).negative()
+            
+        }
 
         // keypresses:
         if (keysPressed.indexOf("ArrowUp") >= 0) {
@@ -198,9 +223,9 @@ window.onload = () => {
         } else if (keysPressed.indexOf("ArrowDown") >= 0) {
             viewCoords.y -= 15 * dt
         } else if (keysPressed.indexOf("ArrowLeft") >= 0) {
-            viewCoords.x -= 15 * dt
-        } else if (keysPressed.indexOf("ArrowRight") >= 0) {
             viewCoords.x += 15 * dt
+        } else if (keysPressed.indexOf("ArrowRight") >= 0) {
+            viewCoords.x -= 15 * dt
         }
 
         // for calculating delta time
@@ -225,4 +250,10 @@ window.addEventListener("keyup", (e) => {
 // when the mouse is moved, update the mouseVector
 window.onmousemove = (e) => {
     mouseVector = Vector.FromCoord(new Coord(e.clientX, window.innerHeight - e.clientY))
+}
+
+window.onclick = (e) => {
+
+    var newObj = new Obj("black", Vector.Add(mouseVector, Vector.FromCoord(viewCoords)), new Vector(0, 0), new Vector(0, 0), 10000)
+    objects.push(newObj)
 }
