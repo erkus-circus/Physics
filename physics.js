@@ -12,6 +12,10 @@ class Coord {
     static FromVector(vector) {
         return new Coord(vector.getXComponent(), vector.getYComponent())
     }
+
+    static DistanceFrom(a, b) {
+        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
+    }
 }
 
 // vectors
@@ -99,6 +103,11 @@ class Vector {
         return Vector.Add(a, b.negative(), scale)
     }
 
+    static DotProduct(a, b) {
+        let theta = Vector.Subtract(a, b).direction
+        return a.magnitude * b.magnitude * Math.cos(theta)
+    }
+
     // converts a Coord into a vector, relative to relativeTo
     static FromCoord(coord, relativeTo = new Coord(0, 0)) {
         var dir = Math.atan2((coord.y - relativeTo.y), (coord.x - relativeTo.x)) || 0
@@ -146,22 +155,24 @@ class Obj {
 var pos = Vector.FromCoord(new Coord(3000, 1100))
 var vel = new Vector(0, 30 * Math.PI / 180)
 var acc = Vector.FromCoord(new Coord(0, 0))
-var testObj = new Obj("blue", pos, vel, acc, 90000)
+var testObj = new Obj("blue", pos, vel, acc, 1800000)
 
 // the second object and its parameters
 var pos2 = Vector.FromCoord(new Coord(400, 300))
 var vel2 = new Vector(1, 12 * Math.PI / 180)
 var acc2 = Vector.FromCoord(new Coord(0, 0))
-var testObj2 = new Obj("purple", pos2, vel2, acc2, 80000)
+var testObj2 = new Obj("purple", pos2, vel2, acc2, 1000)
 
 // all of the objects in the universe
 var objects = [testObj, testObj2]
+
+
 
 // world settings:
 
 // the gravitational constant should be 10x10^-11, but that is not strong enough here
 // larger values mean more gravity in the universe
-var G = 6.6743 * Math.pow(10, -3)
+var G = 6.6743 * Math.pow(10, -1)
 // framerate
 const fps = 1000 / 60;
 // deltatime
@@ -188,7 +199,10 @@ window.onload = () => {
         dt = (time - lastTime) / fps * speed
 
         // update and render the objects
-        objects.forEach((obj) => {
+        objects.forEach((obj, i) => {
+            if (obj.mass <= 0) {
+                objects.splice(i, 1)
+            }
             obj.update(dt)
             obj.render(dt)
         })
@@ -196,6 +210,7 @@ window.onload = () => {
         // calculate the gravity of all objects
 
 
+        
         for (let i = 0; i < objects.length; i++) {
             var totalAcceleration = new Vector(0, 0)
 
@@ -205,16 +220,35 @@ window.onload = () => {
                     continue
                 }
 
+                
+                
                 // calculate the gravity of each object towards each other one
                 var gravityVector = Vector.Subtract(objects[j].pos, objects[i].pos)
                 gravityVector.magnitude = G * ((objects[i].mass * objects[j].mass) / Vector.Subtract(objects[i].pos, objects[j].pos).power(2).magnitude)
+                // drawVector(gravityVector.multiplyByScalar(500), "red", objects[i].pos)
+                // detect collision:
+                // first get positions of both objects in the coordinate plane
+                let obj1Pos = Coord.FromVector(objects[i].pos)
+                let obj2Pos = Coord.FromVector(objects[j].pos)
+                // second, get the distance between both of the points
+                let d = Coord.DistanceFrom(obj1Pos, obj2Pos)
+                // the maximum distance is both of the objects radiuses
+                let maxD = Math.sqrt(objects[i].mass / Math.PI) + Math.sqrt(objects[j].mass / Math.PI)
+
+                if (d <= maxD && objects[i].mass >= objects[j].mass) {
+                    // switch direction
+                    // objects[i].v = objects[i].v.multiplyByScalar(1 - 1 / objects[j].mass)
+                    // objects[i].v.magnitude = objects[j].v.magnitude / objects[j].mass
+                    objects[i].v.direction *= Vector.DotProduct(objects[i].v, objects[j].v)
+                    continue
+                }
 
                 totalAcceleration = Vector.Add(totalAcceleration, gravityVector.negative())
             }
 
             // set the final gravity
             objects[i].a = totalAcceleration.multiplyByScalar(1 / objects[i].mass).negative()
-            
+            drawVector(totalAcceleration.negative().multiplyByScalar(100), "red", objects[i].pos)
         }
 
         // keypresses:
@@ -244,16 +278,19 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
     if (keysPressed.indexOf(e.key) >= 0) {
         keysPressed.splice(keysPressed.indexOf(e.key), 1)
+    } 
+
+    if(e.key == "Space") {
+        speed = !speed
     }
 })
 
 // when the mouse is moved, update the mouseVector
 window.onmousemove = (e) => {
-    mouseVector = Vector.FromCoord(new Coord(e.clientX, window.innerHeight - e.clientY))
+    mouseVector = Vector.Add(Vector.FromCoord(new Coord(e.clientX, window.innerHeight - e.clientY)), Vector.FromCoord(viewCoords))
 }
 
 window.onclick = (e) => {
-
-    var newObj = new Obj("black", Vector.Add(mouseVector, Vector.FromCoord(viewCoords)), new Vector(0, 0), new Vector(0, 0), 10000)
+    var newObj = new Obj("black", mouseVector, new Vector(0, 0), new Vector(0, 0), Math.random() * 1000)
     objects.push(newObj)
 }

@@ -16,6 +16,7 @@ function drawGrid(space=1) {
     c.beginPath()
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
+    c.strokeStyle = "gray"
     c.lineWidth = 1
     for (let Y = 0 - viewCoords.y; Y < canvas.height - viewCoords.y; Y += space) {
         for (let X = 0 - viewCoords.x; X < canvas.width - viewCoords.x; X += space) {
@@ -38,7 +39,7 @@ function drawVector(vector, color="black", origin=globalOriginVector) {
     c.beginPath()
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
-    c.lineWidth = 5
+    c.lineWidth = 2
     c.strokeStyle = color;
     origin = Coord.FromVector(origin)
     c.moveTo(origin.x, canvas.height - origin.y)
