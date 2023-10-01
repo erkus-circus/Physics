@@ -157,7 +157,7 @@ var objects = []
 
 // the gravitational constant should be 10x10^-11, but that is not strong enough here
 // larger values mean more gravity in the universe
-var G = 6.6743 * Math.pow(10, -3)
+var G = 6.6743 * Math.pow(10, -11)
 // framerate
 const fps = 1000 / 60;
 // deltatime
@@ -324,7 +324,7 @@ window.onload = () => {
             scale *= 1.1
         }
         if (keysPressed.indexOf("KeyS") >= 0) {
-            scale *= 1.1
+            scale /= 1.1
         }
         if (keysPressed.indexOf("KeyG") >= 0) {
             scrollSpeed *= 1.04

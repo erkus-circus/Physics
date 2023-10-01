@@ -68,13 +68,13 @@ function drawObjectStats(p, v, a) {
 // draws an object with its mass as the radius
 function drawObj(object, fill=true) {
     c.beginPath()
-    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
-    c.fillStyle = object.color
+    c.fillStyle = `rgb(${210 - object.mass * .000000000001},${210 - object.mass * .000000001},${210 - object.mass * .000001})`
+    c.lineWidth = 5
     c.strokeStyle = object.color
     var {x, y} = Coord.FromVector(object.pos)
-    c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI), 0, 2 * Math.PI);
+    c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI * scale), 0, 2 * Math.PI);
     if(fill) {
         c.fill()
     } else {
