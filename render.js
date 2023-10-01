@@ -14,6 +14,7 @@ canvas.height = window.innerHeight
 // draws a grid so it is easier to see an objects motion
 function drawGrid(space=1) {
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.strokeStyle = "gray"
@@ -28,6 +29,7 @@ function drawGrid(space=1) {
 // draws a dot on the screen at a certain point
 function drawPoint(x, y, color="black") {
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.fillStyle = color
@@ -37,6 +39,7 @@ function drawPoint(x, y, color="black") {
 // draws a vector with its magnitude in pixels from the origin
 function drawVector(vector, color="black", origin=globalOriginVector) {
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.lineWidth = 2
@@ -55,6 +58,7 @@ function drawObjectStats(p, v, a) {
     var {x, y} = Coord.FromVector(p)
     y = canvas.height - y;
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.font = "bold 30px serif";
@@ -62,14 +66,29 @@ function drawObjectStats(p, v, a) {
 }
 
 // draws an object with its mass as the radius
-function drawObj(object) {
+function drawObj(object, fill=true) {
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.fillStyle = object.color
+    c.strokeStyle = object.color
     var {x, y} = Coord.FromVector(object.pos)
     c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI), 0, 2 * Math.PI);
-    c.fill()
+    if(fill) {
+        c.fill()
+    } else {
+        c.stroke()
+    }
+    drawVector(object.v.multiplyByScalar(25), "green", object.pos)
+    drawVector(object.a.multiplyByScalar(100), "red", object.pos)
+    
+    
+}
+
+function renderMouse() {
+    let obj = new Obj("black", mouseVector, initialVelocity, new Vector(0, 0), size)
+    drawObj(obj, false)
 }
 
 // draws a vector at location v
@@ -77,6 +96,7 @@ function drawVectorStat(v, color) {
     var {x, y} = Coord.FromVector(v)
     y = canvas.height - y;
     c.beginPath()
+    
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.translate(viewCoords.x, viewCoords.y)
     c.strokeStyle = color
