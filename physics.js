@@ -157,7 +157,7 @@ var objects = []
 
 // the gravitational constant should be 10x10^-11, but that is not strong enough here
 // larger values mean more gravity in the universe
-var G = 6.6743 * Math.pow(10, -11)
+var G = 6.6743 * Math.pow(10, -3)
 // framerate
 const fps = 1000 / 60;
 // deltatime
@@ -222,6 +222,7 @@ window.onload = () => {
                     // calculate the gravity of each object towards each other one
                     var gravityVector = Vector.Subtract(objects[j].pos, objects[i].pos)
                     gravityVector.magnitude = G * ((objects[i].mass * objects[j].mass) / Vector.Subtract(objects[i].pos, objects[j].pos).power(2).magnitude)
+                    drawVector(gravityVector.multiplyByScalar(1000), "pink", objects[i].pos)
                     // drawVector(gravityVector.multiplyByScalar(500), "red", objects[i].pos)
                     // detect collision:
                     // first get positions of both objects in the coordinate plane
@@ -232,6 +233,7 @@ window.onload = () => {
                     // the maximum distance is both of the objects radiuses
                     let maxD = Math.sqrt(objects[i].mass / Math.PI) + Math.sqrt(objects[j].mass / Math.PI)
 
+                    // Collision Logic: TODO: Help!
                     if (d <= maxD && objects[i].mass <= objects[j].mass) {
                         // switch direction
                         // TODO: is this correct? should the direction be accounted for in here?
@@ -264,12 +266,13 @@ window.onload = () => {
          * Z: Rotate initial velocty counter-clockwise
          * X: Rotate initial velocty clockwise
          * Space: Pause
-         * L: Increase gravity (by magnitudes of 10)
-         * L: Decrease gravity (by magnitudes of 10)
+         * L: Increase gravity (by magnitudes of 2)
+         * L: Decrease gravity (by magnitudes of 2)
          * D: Scale screen up
          * S: Scale screen down
          * G: Increase scroll speed
          * F: Decrease scroll speed
+         * H: Reset View
          */
         // keypresses:
         if (keysPressed.indexOf("ArrowUp") >= 0) {
@@ -332,6 +335,11 @@ window.onload = () => {
         if (keysPressed.indexOf("KeyF") >= 0) {
             scrollSpeed /= 1.04
         }
+        if (keysPressed.indexOf("KeyH") >= 0) {
+            viewCoords.x = 0
+            viewCoords.y = 0
+        }
+
         
         
 

@@ -74,7 +74,7 @@ function drawObj(object, fill=true) {
     c.lineWidth = 5
     c.strokeStyle = object.color
     var {x, y} = Coord.FromVector(object.pos)
-    c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI * scale), 0, 2 * Math.PI);
+    c.arc(x, canvas.height - y, Math.sqrt(object.mass / Math.PI) * scale, 0, 2 * Math.PI);
     if(fill) {
         c.fill()
     } else {
