@@ -1,0 +1,373 @@
+body {
+    /* cursor: none; */
+    font-family: 'Comfortaa', cursive;
+    margin: 0;
+    overflow: hidden;
+}
+.selector-box {
+    z-index: 99;
+    position: absolute;
+    border-radius: 5%;
+    font-weight: bold;
+    color: white;
+    background: rgba(117, 113, 113, 0.9);
+}
+
+.selector-box-text {
+    color: black;
+}
+
+.selector-box-menu {
+    width: 250px;
+    transition: width 1s;
+    cursor: initial;
+    padding: 5px;
+    overflow-y: auto;
+    top: -8px;
+    height: 300px;
+    left: 36px;
+    position: absolute;
+}
+
+.selector-box-content {
+    font-weight: normal;
+    text-align: left;
+}
+
+.selector-box-input {
+    color: white;
+    border: 1px solid black;
+    background: rgba(117, 113, 113, 0.9);
+}
+
+.selector-input {
+    display: block;
+    margin-top: 5px;
+}
+
+.selector-box-section {
+    width: 32px;
+    height: 32px;
+    margin: 2px 0;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    left: 0px;
+    line-height: 32px;
+    display: block;
+    transition: width .05s, transform .1s;
+}
+
+.selector-box-section-hidden {
+    display: none;
+}
+
+.selector-box-section:hover .selector-box-section-hidden {
+    display: inline;
+}
+
+.selector-box-menu-section-box:hover {
+    width: 92px;
+}
+
+.selector-box-section:hover {
+    width: 92px;
+    transform: translateX(-60px);
+}
+
+.selector-box-menu-sections {
+    position: absolute;
+}
+
+
+.selector-box-main {
+    cursor: all-scroll;
+    width: 32px;
+    height: 32px;
+    margin: 3px 0;
+    text-align: center;
+    position: absolute;
+    left: 0px;
+    top: -8px;
+    line-height: 32px;
+    display: block;
+}
+
+.selector-box-color {
+    background-color: rgb(128, 128, 128, .9);
+    border: none;
+    height: 32px;
+    width: 32px;
+}
+
+.selector-box-menu-section-box {
+    width: 32px;
+    height: 32px;
+    margin: 2px 0;
+    top: -168px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    left: 300px;
+    line-height: 32px;
+    display: block;
+    z-index: 99;
+    position: relative;
+    border-radius: 5%;
+    font-weight: bold;
+    background: rgba(117, 113, 113, 0.9);
+    transition: width .05s,
+        transform .1s;
+}
+
+.selector-box-menu-section-box:hover .selector-box-section-hidden {
+    display: inline;
+}
+
+.selector-box-title {
+    font-size: 22px;
+}
+
+.btn-selected {
+    width: 48px;
+    transform: translateX(-16px);
+}
+
+.btn-menu-selected {
+    width: 48px;
+}
+
+.hidden {
+    display:none;
+}
+
+.nav-bar {
+    width: 100%;
+    margin: 0;
+    display: block;
+    padding: 5px;
+    position: fixed;
+    z-index: 100;
+    background:
+        /*NAV:BACKGROUND*/
+        rgb(27, 27, 27);
+    top: 0;
+    right: 0;
+}
+
+.nav-bar>.nav-menu {
+    display: inline;
+    border: none;
+    padding: 3px;
+    z-index: 100;
+}
+
+.nav-dropdown {
+    width: fit-content;
+    display: inline-block;
+    padding-left: 5px;
+    z-index: 100;
+    margin: 0;
+    padding-right: 5px;
+    color:
+        /*NAV:COLOR*/
+        #fff;
+}
+
+.nav-dropdown:hover {
+    background:
+        /*NAV:FOCUS*/
+        rgb(82, 82, 82);
+}
+
+.nav-button {
+    display: block;
+    padding: 6px;
+}
+
+.nav-button:hover {
+    background:
+        /*NAV:FOCUS*/
+        rgb(82, 82, 82);
+}
+
+.nav-menu {
+    display: none;
+    width: max-content;
+    z-index: 100;
+    position: relative;
+    border: 1px solid
+        /*NAV:BORDER*/
+        #fff;
+    border-collapse: separate;
+    background-color: rgb(27, 27, 27);
+}
+
+.nav-dropdown:hover>.nav-menu {
+    display: block;
+    position: absolute;
+}
+
+:not(input) {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+/*RANGE.CSS*/
+
+input[type=range].selector-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 7.3px 0;
+}
+
+input[type=range].selector-slider:focus {
+    outline: none;
+}
+
+input[type=range].selector-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: rgba(48, 113, 169, 0.78);
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+input[type=range].selector-slider::-webkit-slider-thumb {
+    box-shadow: 0.9px 0.9px 1px #000031, 0px 0px 0.9px #00004b;
+    border: 1.8px solid #00001e;
+    height: 26px;
+    width: 26px;
+    border-radius: 15px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7.5px;
+}
+
+input[type=range].selector-slider:focus::-webkit-slider-runnable-track {
+    background: rgba(54, 126, 189, 0.78);
+}
+
+input[type=range].selector-slider::-moz-range-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: rgba(48, 113, 169, 0.78);
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+input[type=range].selector-slider::-moz-range-thumb {
+    box-shadow: 0.9px 0.9px 1px #000031, 0px 0px 0.9px #00004b;
+    border: 1.8px solid #00001e;
+    height: 26px;
+    width: 26px;
+    border-radius: 15px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+input[type=range].selector-slider::-ms-track {
+    width: 100%;
+    height: 11.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range].selector-slider::-ms-fill-lower {
+    background: rgba(42, 100, 149, 0.78);
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range].selector-slider::-ms-fill-upper {
+    background: rgba(48, 113, 169, 0.78);
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range].selector-slider::-ms-thumb {
+    box-shadow: 0.9px 0.9px 1px #000031, 0px 0px 0.9px #00004b;
+    border: 1.8px solid #00001e;
+    height: 26px;
+    width: 26px;
+    border-radius: 15px;
+    background: #ffffff;
+    cursor: pointer;
+    height: 11.4px;
+}
+
+input[type=range].selector-slider:focus::-ms-fill-lower {
+    background: rgba(48, 113, 169, 0.78);
+}
+
+input[type=range].selector-slider:focus::-ms-fill-upper {
+    background: rgba(54, 126, 189, 0.78);
+}
+
+.selector-box-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 18px;
+}
+
+.selector-box-swicth input {
+    display: none;
+}
+
+.selector-box-slider {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 10%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(61, 54, 54);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.selector-box-slider::before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 2px;
+    background: white;
+    border-radius: 10%;
+    -webkit-transition: .55s;
+    transition: .55s;
+}
+
+input:checked+.selector-box-slider {
+    background-color: rgb(53, 66, 87);
+}
+
+input:checked+.selector-box-slider::before {
+    -webkit-transform: translateX(28px);
+    -ms-transform: translateX(28px);
+    -moz-transform: translateX(28px);
+    transform: translateX(28px);
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technion Car simulator</title>
+</head>
+
+<body>
+    <!-- the navbar controls things -->
+    <div class="nav-bar">
+        <div class="nav-menu">
+            <div class="nav-dropdown">File
+                <div class="nav-menu">
+                    <span class="nav-button" id="clear-button">Clear</span>
+                </div>
+            </div>
+            <div class="nav-dropdown">Simulations
+                <div class="nav-menu">
+                    
+                </div> 
+            </div>
+            <div class="nav-dropdown">Planets
+                <div class="nav-menu">
+                    <span class="nav-button" id="earth-obj-button">Earth</span>
+                </div> 
+            </div>
+        </div>
+    </div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="selector-box selector-box-main" title="Menu">
+        &bull;
+        <div class="selector-box-sections">
+            <div id="selector-box-Object" class="selector-box-section selector-box selector-box-objects btn-selected">
+                Obj<span class="selector-box-section-hidden">ects</span></div>
+            <div id="selector-box-System" class="selector-box-section selector-box selector-box-system">Sys<span
+                    class="selector-box-section-hidden">tem</span></div>
+            <div id="selector-box-View" class="selector-box-section selector-box selector-box-select">Vie<span
+                    class="selector-box-section-hidden">w</span></div>
+        </div>
+        <div class="selector-box-menu selector-box"></div>
+        <div class="selector-box-menu-sections">
+        </div>
+    </div>
+    <script src="./build/main-bundle.js"></script>
+</body>
+
+</html>
